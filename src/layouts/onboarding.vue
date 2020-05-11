@@ -5,55 +5,71 @@
     </q-card-title>
     <q-card-separator />
     <q-card-main>
-      <q-stepper
-        alternative-labels
-        ref="stepper"
-        class="onboarding-stepper"
-      >
-        <q-step
-          v-for="step in steps"
-          :key="step.title"
-          :title="step.title"
-          :subtitle="step.subtitle"
-          :name="step.title"
-          active-icon="expand_more"
+      <span v-if="!showFinishScreen">
+        <q-stepper
+
+          alternative-labels
+          ref="stepper"
+          class="onboarding-stepper"
         >
-
-        <div class="q-body-1 description">{{step.description}}</div>
-
-          <div v-if="step.videoUrl" class="iframe-container">
-            <iframe
-              :src="step.videoUrl"
-              class="responsive-iframe"
-              frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-              width="560" height="315"
-            />
-          </div>
-        </q-step>
-      </q-stepper>
-      <div>
-
-        <q-stepper-navigation>
-          <q-btn
-            @click="handleSkipTour"
-            class="skip-tour-btn"
-            label="Skip Tour"
-            outline
-            color="primary"
+          <q-step
+            v-for="step in steps"
+            :key="step.title"
+            :title="step.title"
+            :subtitle="step.subtitle"
+            :name="step.title"
+            active-icon="expand_more"
           >
-            <q-tooltip anchor="bottom middle" self="top middle">
-              Don't worry, you can come back to this later ✌️
-          </q-tooltip>
-          </q-btn>
-          <q-btn
-          @click="handleNextClick"
-          color="primary"
-          label="Next"
+
+          <div class="q-body-1 description">{{step.description}}</div>
+
+            <div v-if="step.videoUrl" class="iframe-container">
+              <iframe
+                :src="step.videoUrl"
+                class="responsive-iframe"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                width="560" height="315"
+              />
+            </div>
+          </q-step>
+        </q-stepper>
+        <div>
+
+          <q-stepper-navigation>
+            <q-btn
+              @click="handleSkipTour"
+              class="skip-tour-btn"
+              label="Skip Tour"
+              outline
+              color="primary"
+            >
+              <q-tooltip anchor="bottom middle" self="top middle">
+                Don't worry, you can come back to this later ✌️
+            </q-tooltip>
+            </q-btn>
+            <q-btn
+            @click="handleNextClick"
+            color="primary"
+            label="next"
+            />
+          </q-stepper-navigation>
+        </div>
+      </span>
+      <span class="finish-tour-screen" v-else>
+        <p class="q-subheading">
+          Great! Now you know the basics of Coach Logic.
+          If you have any questions then feel free to come back to this tour later on
+          from the help button or contact support.
+          </p>
+            <q-btn
+            class="full-width"
+            @click="handleFinishTour"
+            color="primary"
+            label="Finish"
           />
-        </q-stepper-navigation>
-      </div>
+      </span>
     </q-card-main>
   </q-card>
 </template>
@@ -66,20 +82,40 @@ const userType = 'Coach';
 // const userType = 'Community';
 
 export default {
+  props: {
+    onFinishTour: { type: Function },
+    onSkipTour: { type: Function },
+  },
   name: 'onboarding',
   data() {
     return {
       steps: getOnboardingSteps(userType),
+      showFinishScreen: false,
     };
   },
   methods: {
     handleNextClick() {
-      console.log(this.$refs.stepper);
-      setLocalStorageValue(this.$refs.stepper.step);
-      this.$refs.stepper.next();
+      const { stepper } = this.$refs;
+      // set the step to true in localstorage
+      setLocalStorageValue(stepper.step);
+
+      // if the user is about to complete the last step
+      if (stepper.currentStep.last) {
+        this.showFinishScreen = true;
+      }
+
+      stepper.next();
     },
     handleSkipTour() {
       setLocalStorageValue('hasSkipped');
+      if (this.onSkipTour) {
+        this.onSkipTour();
+      }
+    },
+    handleFinishTour() {
+      if (this.onFinishTour) {
+        this.onFinishTour();
+      }
     },
   },
   mounted() {
@@ -94,9 +130,13 @@ export default {
         consecutiveSteps++;
       } else { break; }
     }
+    const { stepper } = this.$refs;
 
-    const stepName = this.$refs.stepper.steps[consecutiveSteps].title;
-    this.$refs.stepper.goToStep(stepName);
+    // if the user hasn't already completed all steps
+    if (consecutiveSteps !== stepper.length) {
+      const stepName = stepper.steps[consecutiveSteps].title;
+      stepper.goToStep(stepName);
+    }
   },
 };
 </script>

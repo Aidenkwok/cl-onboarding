@@ -7,7 +7,7 @@
     :ok="false"
   >
    <div slot="body">
-      <onboarding/>
+      <onboarding :onFinishTour="closeModal" :onSkipTour="closeModal"/>
     </div>
   </q-dialog>
 </template>
@@ -27,6 +27,9 @@ export default {
     };
   },
   methods: {
+    closeModal() {
+      this.modelIsOpen = false;
+    },
   },
 };
 </script>
@@ -39,6 +42,10 @@ export default {
 .onboarding-modal >>> .modal-content{
   max-height: 90vh;
   padding: 0;
+}
+
+.onboarding-modal >>> .onboarding-card{
+  box-shadow: none;
 }
 
 </style>
