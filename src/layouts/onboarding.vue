@@ -8,7 +8,6 @@
       <q-stepper
         alternative-labels
         ref="stepper"
-        v-model="currentStep"
         class="onboarding-stepper"
       >
         <q-step
@@ -37,12 +36,22 @@
       <div>
 
         <q-stepper-navigation>
-          <q-btn class="skip-tour-btn" label="Skip Tour" outline color="primary">
+          <q-btn
+            @click="handleSkipTour"
+            class="skip-tour-btn"
+            label="Skip Tour"
+            outline
+            color="primary"
+          >
             <q-tooltip anchor="bottom middle" self="top middle">
               Don't worry, you can come back to this later ✌️
           </q-tooltip>
           </q-btn>
-          <q-btn @click="$refs.stepper.next()" label="Next" color="primary" />
+          <q-btn
+          @click="handleNextClick"
+          color="primary"
+          label="Next"
+          />
         </q-stepper-navigation>
       </div>
     </q-card-main>
@@ -60,9 +69,23 @@ export default {
   name: 'onboarding',
   data() {
     return {
-      currentStep: 'Invite Users',
       steps: getOnboardingSteps(userType),
     };
+  },
+  methods: {
+    handleNextClick() {
+      console.log(this.$refs.stepper);
+      console.log(this.$refs.stepper.step);
+      this.$refs.stepper.next();
+
+      // if the user is finishing the last step
+      if (this.$refs.stepper.currentOrder !== this.refs.stepper.length - 1) {
+        console.log('last step');
+      }
+    },
+    handleSkipTour() {
+      console.log('skippedtour!');
+    },
   },
 };
 </script>
