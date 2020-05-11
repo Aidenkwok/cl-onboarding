@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import getOnboardingSteps from './onboarding.config.js';
+import getOnboardingSteps, { setLocalStorageValue } from './onboarding.config.js';
 
 const userType = 'Coach';
 // const userType = 'Player';
@@ -75,17 +75,28 @@ export default {
   methods: {
     handleNextClick() {
       console.log(this.$refs.stepper);
-      console.log(this.$refs.stepper.step);
+      setLocalStorageValue(this.$refs.stepper.step);
       this.$refs.stepper.next();
-
-      // if the user is finishing the last step
-      if (this.$refs.stepper.currentOrder !== this.refs.stepper.length - 1) {
-        console.log('last step');
-      }
     },
     handleSkipTour() {
-      console.log('skippedtour!');
+      setLocalStorageValue('hasSkipped');
     },
+  },
+  mounted() {
+    // we set the progress of the stepper depeding on what is in localstorage
+    const previousOnboardingData = JSON.parse(window.localStorage.getItem('onboarding'));
+    let consecutiveSteps = 0;
+    // checking for consecutive steps, eg, 1,2,3 and not 1,3,4
+    // eslint-disable-next-line no-plusplus
+    for (let x = 0; x < this.steps.length; x++) {
+      if (previousOnboardingData[this.steps[x].title] === true && x === consecutiveSteps) {
+        // eslint-disable-next-line no-plusplus
+        consecutiveSteps++;
+      } else { break; }
+    }
+
+    const stepName = this.$refs.stepper.steps[consecutiveSteps].title;
+    this.$refs.stepper.goToStep(stepName);
   },
 };
 </script>
