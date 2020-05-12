@@ -13,6 +13,7 @@
             class="full-width close-btn"
             color="primary"
             label="Got it!"
+            @click="handleCloseModal"
         />
     </div>
   </q-dialog>
@@ -20,12 +21,13 @@
 
 <script>
 import onboardingStep from './onboardingStep.vue';
-import { getSingleStep } from './onboarding.config';
+import { allSteps } from './onboarding.config';
+import { setLocalStorageValue } from './onboardingFunctions';
 
-const stepName = 'Invite Users';
+const stepName = 'inviteUsers';
 
 export default {
-  name: 'onbordingStepModal',
+  name: 'onboardingStepModal',
   components: {
     onboardingStep,
   },
@@ -37,12 +39,13 @@ export default {
     };
   },
   methods: {
-    closeModal() {
+    handleCloseModal() {
       this.modelIsOpen = false;
+      setLocalStorageValue(stepName);
     },
   },
   mounted() {
-    this.step = getSingleStep(stepName);
+    this.step = allSteps[stepName];
   },
 };
 </script>

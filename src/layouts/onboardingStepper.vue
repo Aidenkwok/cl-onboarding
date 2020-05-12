@@ -17,7 +17,7 @@
             :key="step.title"
             :title="step.title"
             :subtitle="step.subtitle"
-            :name="step.title"
+            :name="step.id"
             active-icon="expand_more"
           >
             <onboardingStep :step="step"/>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import getOnboardingSteps, { setLocalStorageValue } from './onboarding.config.js';
+import getOnboardingSteps, { setLocalStorageValue } from './onboardingFunctions';
 import onboardingStep from './onboardingStep';
 
 const userType = 'Coach';

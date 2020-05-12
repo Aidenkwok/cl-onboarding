@@ -7,18 +7,18 @@
     :ok="false"
   >
    <div slot="body">
-      <onboarding :onFinishTour="closeModal" :onSkipTour="closeModal"/>
+      <onboardingStepper :onFinishTour="closeModal" :onSkipTour="closeModal"/>
     </div>
   </q-dialog>
 </template>
 
 <script>
-import onboarding from './onboarding.vue';
+import onboardingStepper from './onboardingStepper.vue';
 
 export default {
-  name: 'onbordingTourModal',
+  name: 'onbordingStepperModal',
   components: {
-    onboarding,
+    onboardingStepper,
   },
   data() {
     return {
@@ -35,17 +35,16 @@ export default {
 </script>
 
 <style scoped>
-.onboarding-modal >>> .modal-scroll{
-  max-height: min-content;
-}
+  .onboarding-modal >>> .modal-scroll{
+    max-height: min-content;
+  }
 
-.onboarding-modal >>> .modal-content{
-  max-height: 90vh;
-  padding: 0;
-}
+  .onboarding-modal >>> .modal-content{
+    max-height: 90vh;
+    padding: 0;
+  }
 
-.onboarding-modal >>> .onboarding-card{
-  box-shadow: none;
-}
-
+  .onboarding-modal >>> .onboarding-card{
+    box-shadow: none;
+  }
 </style>

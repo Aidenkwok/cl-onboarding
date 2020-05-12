@@ -1,11 +1,11 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/onboarding.vue'),
+    component: () => import('layouts/onboardingStepper.vue'),
   },
   {
     path: '/modal',
-    component: () => import('layouts/onboardingTourModal.vue'),
+    component: () => import('layouts/onboardingStepperModal.vue'),
   },
   {
     path: '/single-step',
