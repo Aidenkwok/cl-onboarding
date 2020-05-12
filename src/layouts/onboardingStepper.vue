@@ -117,7 +117,7 @@ export default {
     // checking for consecutive steps, eg, 1,2,3 and not 1,3,4
     // eslint-disable-next-line no-plusplus
     for (let x = 0; x < this.steps.length; x++) {
-      if (previousOnboardingData[this.steps[x].title] === true && x === consecutiveSteps) {
+      if (previousOnboardingData[this.steps[x].id] === true && x === consecutiveSteps) {
         // eslint-disable-next-line no-plusplus
         consecutiveSteps++;
       } else { break; }
@@ -126,7 +126,7 @@ export default {
 
     // if the user hasn't already completed all steps
     if (consecutiveSteps !== stepper.length) {
-      const stepName = stepper.steps[consecutiveSteps].title;
+      const stepName = stepper.steps[consecutiveSteps].name;
       stepper.goToStep(stepName);
     }
   },
