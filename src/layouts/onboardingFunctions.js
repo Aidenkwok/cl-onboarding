@@ -1,6 +1,4 @@
-import {
-  allSteps, CoachConfig, PlayerConfig, CommunityConfig,
-} from './onboarding.config';
+import { allSteps, allConfigs } from './onboarding.config';
 
 
 // settings all values to null in localstorage
@@ -32,6 +30,19 @@ export function setLocalStorageValue(key) {
   window.localStorage.setItem('onboarding', JSON.stringify({ ...JSON.parse(onboardingData), [key]: true }));
 }
 
+// check if the user has completed the onboarding relevant to their usertype
+export function hasCompletedOnboarding(userType) {
+  if (!userType) {
+    return false;
+  }
+  const steps = allConfigs[userType];
+  const onboardingData = JSON.parse(window.localStorage.getItem('onboarding')) || null;
+  if (onboardingData) {
+    return steps.every(({ id }) => onboardingData[id]);
+  }
+  return false;
+}
+
 // get the correct steps depending on userType
 // and also settings those values to false in localstorage
 export default function getOnboardingSteps(userType) {
@@ -42,19 +53,7 @@ export default function getOnboardingSteps(userType) {
     onboardingData = createLocalStorageItem();
   }
 
-  switch (userType) {
-    case 'Coach': {
-      setUserTypeSteps(onboardingData, CoachConfig);
-      return CoachConfig;
-    }
-
-    case 'Player':
-      setUserTypeSteps(onboardingData, PlayerConfig);
-      return PlayerConfig;
-
-    case 'Community':
-    default:
-      setUserTypeSteps(onboardingData, CommunityConfig);
-      return CommunityConfig;
-  }
+  const steps = allConfigs[userType];
+  setUserTypeSteps(onboardingData, steps);
+  return steps;
 }

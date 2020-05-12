@@ -22,7 +22,7 @@
 <script>
 import onboardingStep from './onboardingStep.vue';
 import { allSteps } from './onboarding.config';
-import { setLocalStorageValue } from './onboardingFunctions';
+import { setLocalStorageValue, hasCompletedOnboarding } from './onboardingFunctions';
 
 const stepName = 'inviteUsers';
 

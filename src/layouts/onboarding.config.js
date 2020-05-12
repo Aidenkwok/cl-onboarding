@@ -36,6 +36,12 @@ const CoachConfig = [videoUpload, inviteUsers, sendClips, createPost];
 const PlayerConfig = [createPost, sendClips, searchClips, createPlaylist];
 const CommunityConfig = [starItem, createPost, searchClips, createPlaylist];
 
+const allConfigs = {
+  coach: CoachConfig,
+  player: PlayerConfig,
+  community: CommunityConfig,
+};
+
 export {
-  allSteps, CoachConfig, PlayerConfig, CommunityConfig,
+  allSteps, allConfigs,
 };

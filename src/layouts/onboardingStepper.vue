@@ -66,9 +66,9 @@
 import getOnboardingSteps, { setLocalStorageValue } from './onboardingFunctions';
 import onboardingStep from './onboardingStep';
 
-const userType = 'Coach';
-// const userType = 'Player';
-// const userType = 'Community';
+const userType = 'coach';
+// const userType = 'player';
+// const userType = 'community';
 
 export default {
   components: {
