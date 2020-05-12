@@ -20,19 +20,7 @@
             :name="step.title"
             active-icon="expand_more"
           >
-
-          <div class="q-body-1 description">{{step.description}}</div>
-
-            <div v-if="step.videoUrl" class="iframe-container">
-              <iframe
-                :src="step.videoUrl"
-                class="responsive-iframe"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                width="560" height="315"
-              />
-            </div>
+            <onboardingStep :step="step"/>
           </q-step>
         </q-stepper>
         <div>
@@ -76,12 +64,16 @@
 
 <script>
 import getOnboardingSteps, { setLocalStorageValue } from './onboarding.config.js';
+import onboardingStep from './onboardingStep';
 
 const userType = 'Coach';
 // const userType = 'Player';
 // const userType = 'Community';
 
 export default {
+  components: {
+    onboardingStep,
+  },
   props: {
     onFinishTour: { type: Function },
     onSkipTour: { type: Function },

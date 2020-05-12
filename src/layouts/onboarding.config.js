@@ -80,3 +80,29 @@ export default function getOnboardingSteps(userType) {
       return CommunityConfig;
   }
 }
+
+export function getSingleStep(stepName) {
+  switch (stepName) {
+    case 'Upload a Video':
+      return videoUpload;
+
+    case 'Invite Users':
+      return inviteUsers;
+
+    case 'Send Clips':
+      return sendClips;
+
+    case 'Search Clips':
+      return searchClips;
+
+    case 'Create Playlist':
+      return createPlaylist;
+
+    case 'Star Items':
+      return starItem;
+
+    case 'Create Post':
+    default:
+      return createPost;
+  }
+}

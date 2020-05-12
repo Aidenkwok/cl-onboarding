@@ -16,7 +16,7 @@
 import onboarding from './onboarding.vue';
 
 export default {
-  name: 'onbordingModal',
+  name: 'onbordingTourModal',
   components: {
     onboarding,
   },

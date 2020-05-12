@@ -5,7 +5,11 @@ const routes = [
   },
   {
     path: '/modal',
-    component: () => import('layouts/onboardingModal.vue'),
+    component: () => import('layouts/onboardingTourModal.vue'),
+  },
+  {
+    path: '/single-step',
+    component: () => import('layouts/onboardingStepModal.vue'),
   },
 ];
 
